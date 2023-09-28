@@ -18,11 +18,11 @@ use function json_decode;
 class MultiVersionRuntimeBlockMapping{
 
     /** @var int[][] */
-    private static $legacyToRuntimeMap = [];
+    protected static $legacyToRuntimeMap = [];
     /** @var int[][] */
-    private static $runtimeToLegacyMap = [];
+    protected static $runtimeToLegacyMap = [];
     /** @var CompoundTag[][]|null */
-    private static $bedrockKnownStates = [];
+    protected static $bedrockKnownStates = [];
 
     const PROTOCOL = [
         ProtocolConstants::BEDROCK_1_20_0 => "_1_20_0",
