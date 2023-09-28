@@ -30,7 +30,7 @@ class MultiVersionRuntimeBlockMapping{
         ProtocolConstants::BEDROCK_1_20_30 => "_1_20_30",
     ];
 
-    private function __construct(){
+    protected function __construct(){
         //NOOP
     }
 
@@ -52,7 +52,7 @@ class MultiVersionRuntimeBlockMapping{
         }
     }
 
-    private static function setupLegacyMappings(int $protocol) : void{
+    protected static function setupLegacyMappings(int $protocol) : void{
         $legacyIdMap = json_decode(file_get_contents(Loader::$resourcesPath . "vanilla/block_id_map.json"), true);
 
         /** @var R12ToCurrentBlockMapEntry[] $legacyStateMap */
@@ -122,7 +122,7 @@ class MultiVersionRuntimeBlockMapping{
         }
     }
 
-    private static function lazyInit() : void{
+    protected static function lazyInit() : void{
         if(self::$bedrockKnownStates === null){
             self::init();
         }
@@ -156,7 +156,7 @@ class MultiVersionRuntimeBlockMapping{
         return [$v >> 4, $v & 0xf];
     }
 
-    private static function registerMapping(int $staticRuntimeId, int $legacyId, int $legacyMeta, $protocol) : void{
+    protected static function registerMapping(int $staticRuntimeId, int $legacyId, int $legacyMeta, $protocol) : void{
         self::$legacyToRuntimeMap[$protocol][($legacyId << 4) | $legacyMeta] = $staticRuntimeId;
         self::$runtimeToLegacyMap[$protocol][$staticRuntimeId] = ($legacyId << 4) | $legacyMeta;
     }
