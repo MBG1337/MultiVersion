@@ -18,11 +18,11 @@ use function json_decode;
 class MultiVersionRuntimeBlockMapping{
 
     /** @var int[][] */
-    protected static $legacyToRuntimeMap = [];
+    private static $legacyToRuntimeMap = [];
     /** @var int[][] */
-    protected static $runtimeToLegacyMap = [];
+    private static $runtimeToLegacyMap = [];
     /** @var CompoundTag[][]|null */
-    protected static $bedrockKnownStates = [];
+    private static $bedrockKnownStates = [];
 
     const PROTOCOL = [
         ProtocolConstants::BEDROCK_1_20_0 => "_1_20_0",
@@ -30,7 +30,7 @@ class MultiVersionRuntimeBlockMapping{
         ProtocolConstants::BEDROCK_1_20_30 => "_1_20_30",
     ];
 
-    protected function __construct(){
+    private function __construct(){
         //NOOP
     }
 
@@ -52,7 +52,7 @@ class MultiVersionRuntimeBlockMapping{
         }
     }
 
-    protected static function setupLegacyMappings(int $protocol) : void{
+    private static function setupLegacyMappings(int $protocol) : void{
         $legacyIdMap = json_decode(file_get_contents(Loader::$resourcesPath . "vanilla/block_id_map.json"), true);
 
         /** @var R12ToCurrentBlockMapEntry[] $legacyStateMap */
@@ -122,7 +122,7 @@ class MultiVersionRuntimeBlockMapping{
         }
     }
 
-    protected static function lazyInit() : void{
+    private static function lazyInit() : void{
         if(self::$bedrockKnownStates === null){
             self::init();
         }
@@ -156,7 +156,7 @@ class MultiVersionRuntimeBlockMapping{
         return [$v >> 4, $v & 0xf];
     }
 
-    protected static function registerMapping(int $staticRuntimeId, int $legacyId, int $legacyMeta, $protocol) : void{
+    private static function registerMapping(int $staticRuntimeId, int $legacyId, int $legacyMeta, $protocol) : void{
         self::$legacyToRuntimeMap[$protocol][($legacyId << 4) | $legacyMeta] = $staticRuntimeId;
         self::$runtimeToLegacyMap[$protocol][$staticRuntimeId] = ($legacyId << 4) | $legacyMeta;
     }
